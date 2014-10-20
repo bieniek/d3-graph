@@ -33,18 +33,22 @@ text {
 	var margin = {top: 30, right: 20, bottom: 30, left: 50},
     width = 600 - margin.left - margin.right,
     height = 270 - margin.top - margin.bottom;
+	
+	var format = d3.time.format("%Y-%m-%d");
 		
 	var data = [
-					[{x:20, y:50}, {x:200,y:50}, {x:400,y:50}]
-				, 	[{x:20, y:25},  {x:200,y:140},{x:400,y:50}]
-				,	[{x:20, y:5},  {x:200,y:30},{x:400,y:10}]
+					[{date:format.parse('2014-10-10'), y:50}, {date:format.parse('2014-10-15'),y:50}, {date:format.parse('2014-10-20'),y:50}]
+				, 	[{date:format.parse('2014-10-10'), y:25},  {date:format.parse('2014-10-15'),y:140},{date:format.parse('2014-10-20'),y:50}]
+				,	[{date:format.parse('2014-10-10'), y:5},  {date:format.parse('2014-10-15'),y:30},{date:format.parse('2014-10-20'),y:10}]
 				];
 	
 	var color = d3.scale.linear()
 		.range(["#aad", "#556"]);
 	
+	
 				
-	var x = d3.scale.linear().range([0, width]).domain([0, 600]);
+	//var x = d3.scale.linear().range([0, width]).domain([0, 600]);
+	var x = d3.time.scale().range([0, width]).domain([format.parse('2014-10-10'), format.parse('2014-10-20')]);
 	var y = d3.scale.linear().range([height, 0]).domain([0, 400]);
 	
 	// Define the axes
@@ -78,7 +82,7 @@ text {
 	console.log(stacked);
 	
 	var area = d3.svg.area()
-    .x(function(d) { console.log('return x' + d.x); return x(d.x); })
+    .x(function(d) { console.log('return x' + d.x); return x(d.date); })
     .y0(function(d) { return y(d.y0); })
     .y1(function(d) { return y(d.y0 + d.y); });
 	
